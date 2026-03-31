@@ -22,7 +22,7 @@ def search():
     return str(results)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
   
 
 ## github="ghp_Rz8l2k3p5q0wMkkkkMM1m4n7v9x2zmmm8l2km3p5q0w1m4n"
