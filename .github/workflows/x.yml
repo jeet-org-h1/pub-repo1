@@ -1,0 +1,25 @@
+name: build-and-attest
+on:
+  workflow_dispatch:
+jobs:
+  attest-binary:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      attestations: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build artifact
+        run: |
+          mkdir -p dist
+          echo test > dist/app.bin
+      - name: Generate artifact attestation
+        uses: actions/attest@v4
+        with:
+          subject-path: dist/app.bin
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-binary
+          path: dist/app.bin
