@@ -1,0 +1,31 @@
+name: generate-sigstore-bundle
+
+on:
+  workflow_dispatch:
+
+jobs:
+  attest:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      attestations: write
+
+    steps:
+      - name: Create subject
+        run: echo test > artifact.txt
+
+      - name: Create attestation
+        id: attest
+        uses: actions/attest@v4
+        with:
+          subject-path: artifact.txt
+
+      - name: Copy bundle
+        run: cp "${{ steps.attest.outputs.bundle-path }}" sigstore-bundle.json
+
+      - name: Upload bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: sigstore-bundle
+          path: sigstore-bundle.json
